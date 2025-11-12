@@ -449,7 +449,7 @@ metadata:
 
 spec:
   description: RetinaNet R101 from Detectron2
-  runtime: 'python:3.9'
+  runtime: 'python:3.10'
   handler: main:handler
   eventTimeout: 30s
 
@@ -604,7 +604,7 @@ For `RetinaNet R101` which was added above modifications will look like:
  spec:
 -  description: RetinaNet R101 from Detectron2
 +  description: RetinaNet R101 from Detectron2 optimized for GPU
-   runtime: 'python:3.9'
+   runtime: 'python:3.10'
    handler: main:handler
    eventTimeout: 30s
 @@ -108,7 +108,7 @@

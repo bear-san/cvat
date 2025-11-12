@@ -31,7 +31,7 @@ metadata:
 
 spec:
   description: Segmentation network to classify each pixel into typical 20 classes for ADAS
-  runtime: 'python:3.9'
+  runtime: 'python:3.10'
   handler: main:handler
   eventTimeout: 30s
 

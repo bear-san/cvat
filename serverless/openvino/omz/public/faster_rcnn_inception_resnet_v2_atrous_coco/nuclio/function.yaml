@@ -90,7 +90,7 @@ metadata:
 
 spec:
   description: Faster R-CNN with Inception ResNet v2 Atrous via Intel OpenVINO toolkit
-  runtime: 'python:3.9'
+  runtime: 'python:3.10'
   handler: main:handler
   eventTimeout: 30s
 

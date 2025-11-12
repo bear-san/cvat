@@ -8,7 +8,7 @@ metadata:
 
 spec:
   description: Fast Online Object Tracking and Segmentation
-  runtime: 'python:3.9'
+  runtime: 'python:3.10'
   handler: main:handler
   eventTimeout: 30s
   env:
