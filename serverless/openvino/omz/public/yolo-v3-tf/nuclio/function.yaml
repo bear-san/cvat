@@ -90,7 +90,7 @@ metadata:
 
 spec:
   description: YOLO v3 via Intel OpenVINO
-  runtime: 'python:3.8'
+  runtime: 'python:3.9'
   handler: main:handler
   eventTimeout: 30s
 
