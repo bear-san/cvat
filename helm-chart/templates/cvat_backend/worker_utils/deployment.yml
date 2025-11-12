@@ -83,7 +83,6 @@ spec:
           securityContext:
             runAsNonRoot: true
       initContainers:
-        {{- if .Values.cvat.backend.permissionFix.enabled }}
         - name: user-data-permission-fix
           image: busybox
           command: ["/bin/chmod", "-R", "777", "/home/django"]
@@ -106,7 +105,6 @@ spec:
           {{- with concat .Values.cvat.backend.additionalVolumeMounts $localValues.additionalVolumeMounts }}
           {{- toYaml . | nindent 10 }}
           {{- end }}
-        {{- end }}
       {{- with merge $localValues.affinity .Values.cvat.backend.affinity }}
       affinity:
       {{- toYaml . | nindent 8 }}
@@ -116,9 +114,11 @@ spec:
       {{- toYaml . | nindent 8 }}
       {{- end }}
       volumes:
+        {{- if .Values.cvat.backend.defaultStorage.enabled }}
         - name: cvat-backend-data
           persistentVolumeClaim:
             claimName: "{{ .Release.Name }}-backend-data"
+        {{- end }}
         {{- with concat .Values.cvat.backend.additionalVolumes $localValues.additionalVolumes }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
