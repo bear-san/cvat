@@ -116,11 +116,9 @@ spec:
       {{- toYaml . | nindent 8 }}
       {{- end }}
       volumes:
-        {{- if .Values.cvat.backend.defaultStorage.enabled }}
         - name: cvat-backend-data
           persistentVolumeClaim:
             claimName: "{{ .Release.Name }}-backend-data"
-        {{- end }}
         {{- with concat .Values.cvat.backend.additionalVolumes $localValues.additionalVolumes }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
