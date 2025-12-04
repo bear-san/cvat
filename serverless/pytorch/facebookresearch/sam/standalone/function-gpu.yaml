@@ -1,0 +1,81 @@
+metadata:
+  annotations:
+    animated_gif: https://raw.githubusercontent.com/cvat-ai/cvat/develop/site/content/en/images/hrnet_example.gif
+    help_message: The interactor allows to get a mask of an object using at least
+      one positive, and any negative points inside it
+    min_neg_points: "0"
+    min_pos_points: "0"
+    name: Segment Anything
+    startswith_box_optional: '"true"'
+    type: interactor
+    version: "2"
+  labels:
+    nuclio.io/project-name: cvat
+  name: pth-facebookresearch-sam-vit-h
+  namespace: cvat
+spec:
+  description: Interactive object segmentation with Segment-Anything
+  disableDefaultHTTPTrigger: false
+  runtime: 'python:3.10'
+  handler: main:handler
+  eventTimeout: 30s
+  env:
+  - name: PYTHONPATH
+    value: /opt/nuclio
+  - name: CYCLOUD_CREDENTIALS
+    value: /creds/serviceaccount.json
+  - name: MLP_ENDPOINT_URL
+    value: https://aip-96a0d477bb8967ff.prediction.mlplatform.cycloud.jp/v1/models/aip-96a0d477bb8967ff:predict
+
+  build:
+    codeEntryType: image
+    registry: yy7vgmlgynabvn43w67xqdslxm.tky02.cr.cycloud.jp/cvat-test-ake
+    runtimeAttributes:
+      repositories: [ ]
+  alias: latest
+  image: yy7vgmlgynabvn43w67xqdslxm.tky02.cr.cycloud.jp/cvat-test-ake/nuclio-mlp-proxy:v0.0.10
+  imageHash: "1764843071130316201"
+  livenessProbe:
+    failureThreshold: 3
+    initialDelaySeconds: 10
+    periodSeconds: 5
+    timeoutSeconds: 3
+  loggerSinks:
+  - level: debug
+  platform:
+    attributes:
+      mountMode: volume
+      restartPolicy:
+        maximumRetryCount: 3
+        name: always
+  readinessProbe:
+    failureThreshold: 10
+    initialDelaySeconds: 5
+    periodSeconds: 1
+    timeoutSeconds: 1
+  resources:
+    requests:
+      cpu: 25m
+      memory: 1Mi
+  securityContext: { }
+  streamChunkTimeout: ""
+  triggers:
+    myHttpTrigger:
+      attributes:
+        maxRequestBodySize: 33554432
+        serviceType: ClusterIP
+      class: ""
+      kind: http
+      mode: sync
+      name: myHttpTrigger
+      numWorkers: 1
+      workerAvailabilityTimeoutMilliseconds: 10000
+  version: -1
+  volumes:
+  - volume:
+      name: mlp-caller-sa
+      secret:
+        secretName: mlp-caller-sa
+    volumeMount:
+      mountPath: /creds
+      name: mlp-caller-sa
